@@ -1,16 +1,8 @@
 <?php 
-
-define('TOKEN','5491967367:AAHL6XbmOCgPHFAmV1Myul_PnAYXA3eeV9Q');
-
-$url = 'https://api.telegram.org/bot'.TOKEN.'/';
-$chat_id = "330045578";
-
-$get_me = $url . "getMe";
-$send_massage = $url . "sendMessage?text=hi ali&chat_id=".$chat_id;
-
-$curl = curl_init($send_massage);
-curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-$result = curl_exec($curl);
-
-echo "\n";
-var_dump($result);
+// your bot token in telegram (give it from botfather)
+include __DIR__ . '/env.php';
+include __DIR__ . '/telegramlib.php';
+Telegramlib::init();
+//send message (hi ali mohammadi ) to user with chat id = 00000000
+$send_massage = Telegramlib::send_message("hi ali mohammadi " , "00000000");
+return $send_massage;
