@@ -14,9 +14,11 @@ class Telegramlib {
         }
         $url = self::$url . $_method;
         $curl = curl_init($url);
+
         if(!empty($_parameters)){
             curl_setopt($curl,CURLOPT_POSTFIELDS,json_encode($_parameters));
         }
+
         curl_setopt($curl,CURLOPT_HTTPHEADER,['content-type:application/json']);
         curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
         $result = curl_exec($curl);
@@ -35,12 +37,22 @@ class Telegramlib {
         return  $output;
     }
 //    send message function
-    public static  function send_message( $_text , $_chat_id){
+    public static  function send_message( $_text , $_chat_id,$_keyword= []){
         $parameters = [
             "text" => $_text,
             "chat_id" => $_chat_id
         ];
+        if(!empty($_keyword)){
+            $parameters['reply_markup'] = $_keyword ;
+        }
         return self::execute('sendMessage' ,$parameters);
+    }
+    public static function make_keyword( $_keyboard,$_resize_keyboard = false,$_one_time_keyboard = false){
+         return [
+             "keyboard" => $_keyboard,
+             "resize_keyboard" => $_resize_keyboard,
+             "one_time_keyboard" => $_one_time_keyboard,
+         ];
     }
     public static function get_update( $_offset = null ){
         $parameters = [];
